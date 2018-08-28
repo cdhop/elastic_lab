@@ -26,19 +26,18 @@
         repo: deb https://artifacts.elastic.co/packages/6.x/apt stable main
         state: present
 
-    - name: Install Elasticsearch, Kibana, and Logtash
+    - name: Install Elasticsearch and Kibana
       apt: update_cache=yes name={{ item }} state=present
       with_items:
         - elasticsearch
         - kibana
-        - logstash
 
-#    - name: Add network.host entry 0.0.0.0 in  /etc/elasticsearch/elasticsearch.yml
-#      lineinfile:
-#        path: /etc/elasticsearch/elasticsearch.yml
-#        line: 'network.host: 0.0.0.0'
-#        state: present
-#      notify: restart elasticsearch
+    - name: Add network.host entry 0.0.0.0 in  /etc/elasticsearch/elasticsearch.yml
+      lineinfile:
+        path: /etc/elasticsearch/elasticsearch.yml
+        line: 'network.host: 0.0.0.0'
+        state: present
+      notify: restart elasticsearch
 
     - name: Start elasticsearch
       service:
