@@ -8,13 +8,37 @@
     ansible_python_interpreter: '/usr/bin/env python3'
 
   tasks:
-    - name: Install packages
+
+    - name: Add Elastic Apt Key
+      apt_key: 
+        url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+        state: present
+
+    - name: Add Elastic Repository
+      apt_repository:
+        repo: deb https://artifacts.elastic.co/packages/6.x/apt stable main
+        state: present
+
+    - name: Install Packages
       apt: update_cache=yes name={{ item }} state=present
       with_items:
+        - filebeat
         - nginx
+
+    - name: Copy filebeat.yml file 
+      copy: 
+        src: files/filebeat.yml
+        dest: /etc/filebeat/filebeat.yml
+      notify:
+        - restart filebeat
 
   handlers:
     - name: restart nginx
       service:
         name: nginx
+        state: restarted
+
+    - name: restart filebeat
+      service:
+        name: filebeat
         state: restarted

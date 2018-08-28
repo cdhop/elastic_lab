@@ -2,6 +2,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "elastic" do |elastic|
     elastic.vm.box = "ubuntu/bionic64"
+    elastic.vm.hostname = "elastic"
 
     elastic.vm.provider "virtualbox" do |v|
       v.memory = 2048
@@ -18,6 +19,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "webserver" do |webserver|
     webserver.vm.box = "ubuntu/bionic64"
+    webserver.vm.hostname = "webserver"
 
     webserver.vm.network "private_network", ip: "192.168.2.10", netmask: "255.255.255.0"
 
