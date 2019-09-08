@@ -20,8 +20,12 @@
         state: present
 
     - name: Install Packages
-      apt: update_cache=yes name={{ item }} state=present
-      with_items:
+      apt: 
+        update_cache: yes 
+        name: "{{ packages }}" 
+        state: present
+      vars:
+        packages:
         - filebeat
         - nginx
 

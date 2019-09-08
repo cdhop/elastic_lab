@@ -9,8 +9,12 @@
 
   tasks:
     - name: Install packages
-      apt: update_cache=yes name={{ item }} state=present
-      with_items:
+      apt: 
+        update_cache: yes 
+        name: "{{ packages }}" 
+        state: present
+      vars:
+        packages:
         - openjdk-8-jre
         - apt-transport-https
         - wget
@@ -27,8 +31,12 @@
         state: present
 
     - name: Install Elasticsearch and Kibana
-      apt: update_cache=yes name={{ item }} state=present
-      with_items:
+      apt: 
+        update_cache: yes 
+        name: "{{ packages }}" 
+        state: present
+      vars:
+        packages:
         - elasticsearch
         - kibana
 
